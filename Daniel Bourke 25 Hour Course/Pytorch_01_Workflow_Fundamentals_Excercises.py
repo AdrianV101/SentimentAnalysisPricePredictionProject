@@ -3,42 +3,11 @@ from torch import nn
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import logging
-from colorlog import ColoredFormatter
-import datetime
+from pathlib import Path
+from utils.customLogger import setupLogger
 from pathlib import Path
 
-#setting up logging
-program_name='00_fundamentals'
-# Create a logger for your module
-logger = logging.getLogger(program_name)
-logger.setLevel(logging.DEBUG)
-
-# Create a file handler with dynamic file name
-current_datetime = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-log_file_name = f'Logs/{program_name}_{current_datetime}.log'
-file_handler = logging.FileHandler(log_file_name)
-
-# Set the log message format
-file_formatter = logging.Formatter('%(asctime)s [%(levelname)s] - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-file_handler.setFormatter(file_formatter)
-
-#get colors in console
-log_colors = {
-    'DEBUG': 'cyan',
-    'INFO': 'green',
-    'WARNING': 'yellow',
-    'ERROR': 'red',
-    'CRITICAL': 'bold_red',
-}
-#add console handler
-console_handler = logging.StreamHandler()
-console_formatter=ColoredFormatter("%(log_color)s%(asctime)s [%(levelname)s] - %(message)s",datefmt='%Y-%m-%d %H:%M:%S',log_colors=log_colors)
-console_handler.setFormatter(console_formatter)
-
-#add handlers to logger
-logger.addHandler(file_handler)
-logger.addHandler(console_handler)
+logger=setupLogger(Path(__file__).name[:-3]) #set up custom logger
 
 #making program run on GPU not CPU, if possible
 if torch.cuda.is_available():
@@ -113,7 +82,6 @@ with torch.inference_mode():
 predictions=predictions.cpu()
 predictions.detach().numpy()
 
-torch.set_default_device("cpu") # need to change to CPU to work with matplotlib and numpy etc.
 plt.scatter(x_train.cpu(),y_train.cpu(),s=3)
 plt.scatter(x_test.cpu(),y_test.cpu(),s=3)
 plt.scatter(x_test.cpu(),predictions.cpu(),s=3)
@@ -127,6 +95,14 @@ MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
 logger.info(f"Saving model to: {MODEL_SAVE_PATH}")
 torch.save(obj=model_1.state_dict(), # only saving the state_dict() only saves the models learned parameters
            f=MODEL_SAVE_PATH)
+
+# Instantiate a new instance of our model (this will be instantiated with random weights)
+loaded_model_0 = LinearRegressionModel()
+
+# Load the state_dict of our saved model (this will update the new instance of our model with trained weights)
+loaded_model_0.load_state_dict(torch.load(f=MODEL_SAVE_PATH))
+
+
 
 
 
