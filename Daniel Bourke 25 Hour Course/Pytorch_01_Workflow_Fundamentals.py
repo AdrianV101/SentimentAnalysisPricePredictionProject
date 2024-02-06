@@ -1,14 +1,13 @@
 import torch
 from torch import nn
-import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-from utils.customLogger import setupLogger
+from utils.customLogger import setup_logger
 from pathlib import Path
 
-logger=setupLogger(Path(__file__).name[:-3]) #set up custom logger
-#========================================START OF CHAPTER==========================================================
-#making program run on GPU not CPU
+
+logger = setup_logger(Path(__file__).name[:-3])  # set up custom logger
+# ========================================START OF CHAPTER==========================================================
+# making program run on GPU not CPU
 if torch.cuda.is_available():
     device = "cuda"
 else:
@@ -29,7 +28,7 @@ logger.info(X[:10])
 logger.info(y[:10])
 
 # Create train/test split
-train_split = int(0.8 * len(X)) # 80% of data used for training set, 20% for testing
+train_split = int(0.8 * len(X))  # 80% of data used for training set, 20% for testing
 X_train, y_train = X[:train_split], y[:train_split]
 X_test, y_test = X[train_split:], y[train_split:]
 
@@ -55,24 +54,27 @@ def plot_predictions(train_data=X_train,
         plt.scatter(test_data, predictions, c="r", s=4, label="Predictions")
 
     # Show the legend
-    plt.legend(prop={"size": 14});
+    plt.legend(prop={"size": 14})
     plt.show()
-#plot_predictions()
+# plot_predictions()
 
-class LinearRegressionModel(nn.Module): # <- almost everything in PyTorch is a nn.Module (think of this as neural network lego blocks)
+
+class LinearRegressionModel(nn.Module):  # <- almost everything in PyTorch is a nn.Module (think of this as
+    # neural network lego blocks)
     def __init__(self):
         super().__init__()
-        self.weights = nn.Parameter(torch.randn(1, # <- start with random weights (this will get adjusted as the model learns)
-                                                dtype=torch.float), # <- PyTorch loves float32 by default
-                                   requires_grad=True) # <- can we update this value with gradient descent?)
+        self.weights = nn.Parameter(torch.randn(1,  # <- start with random weights, adjusted as the model learns)
+                                                dtype=torch.float),  # <- PyTorch loves float32 by default
+                                    requires_grad=True)  # <- can we update this value with gradient descent?)
 
-        self.bias = nn.Parameter(torch.randn(1, # <- start with random bias (this will get adjusted as the model learns)
-                                            dtype=torch.float), # <- PyTorch loves float32 by default
-                                requires_grad=True) # <- can we update this value with gradient descent?))
+        self.bias = nn.Parameter(torch.randn(1,  # <- start with random bias, adjusted as the model learns)
+                                             dtype=torch.float),  # <- PyTorch loves float32 by default
+                                 requires_grad=True)  # <- can we update this value with gradient descent?))
 
     # Forward defines the computation in the model
-    def forward(self, x: torch.Tensor) -> torch.Tensor: # <- "x" is the input data (e.g. training/testing features)
-        return self.weights * x + self.bias # <- this is the linear regression formula (y = m*x + b)
+    def forward(self, x: torch.Tensor) -> torch.Tensor:  # <- "x" is the input data (e.g. training/testing features)
+        return self.weights * x + self.bias  # <- this is the linear regression formula (y = m*x + b)
+
 
 # Set manual seed since nn.Parameter are randomly initialzied
 torch.manual_seed(42)
@@ -101,7 +103,8 @@ loss_fn = nn.L1Loss() # MAE loss is same as L1Loss
 
 # Create the optimizer
 optimizer = torch.optim.SGD(params=model_0.parameters(), # parameters of target model to optimize
-                            lr=0.001) # learning rate (how much the optimizer should change parameters at each step, higher=more (less stable), lower=less (might take a long time))
+                            lr=0.001) # learning rate (how much the optimizer should change parameters at each step, 
+                            higher=more (less stable), lower=less (might take a long time))
 
 torch.manual_seed(42)
 
@@ -144,7 +147,8 @@ for epoch in range(epochs):
       test_pred = model_0(X_test)
 
       # 2. Caculate loss on test data
-      test_loss = loss_fn(test_pred, y_test.type(torch.float)) # predictions come in torch.float datatype, so comparisons need to be done with tensors of the same type
+      test_loss = loss_fn(test_pred, y_test.type(torch.float)) # predictions come in torch.float datatype, so 
+      comparisons need to be done with tensors of the same type
 
       # Print out what's happening
       if epoch % 10 == 0:
@@ -211,7 +215,7 @@ with torch.inference_mode():
 # Compare previous model predictions with loaded model predictions (these should be the same)
 logger.info(y_preds == loaded_model_preds)'''
 
-#=================================================DIFFERENT MODEL==================================================
+# =================================================DIFFERENT MODEL==================================================
 # Create weight and bias
 weight = 0.7
 bias = 0.3
@@ -222,7 +226,8 @@ end = 1
 step = 0.02
 
 # Create X and y (features and labels)
-X = torch.arange(start, end, step).unsqueeze(dim=1) # without unsqueeze, errors will happen later on (shapes within linear layers)
+X = torch.arange(start, end, step).unsqueeze(dim=1)  # without unsqueeze, errors will happen later
+# on (shapes within linear layers)
 y = weight * X + bias
 
 # Split data
@@ -246,19 +251,20 @@ class LinearRegressionModelV2(nn.Module):
         return self.linear_layer(x)
 
 
-# Set the manual seed when creating the model (this isn't always need but is used for demonstrative purposes, try commenting it out and seeing what happens)
+# Set the manual seed when creating the model (this isn't always need but is used for
+# demonstrative purposes, try commenting it out and seeing what happens)
 torch.manual_seed(42)
 model_1 = LinearRegressionModelV2()
 model_1, model_1.state_dict()
 
 # Set model to GPU if it's availalble, otherwise it'll default to CPU
-model_1.to(device) # the device variable was set above to be "cuda" if available or "cpu" if not
+model_1.to(device)  # the device variable was set above to be "cuda" if available or "cpu" if not
 
 # Create loss function
 loss_fn = nn.L1Loss()
 
 # Create optimizer
-optimizer = torch.optim.SGD(params=model_1.parameters(), # optimize newly created model's parameters
+optimizer = torch.optim.SGD(params=model_1.parameters(),  # optimize newly created model's parameters
                             lr=0.01)
 torch.manual_seed(42)
 
@@ -273,7 +279,7 @@ y_train = y_train.to(device)
 y_test = y_test.to(device)
 
 for epoch in range(epochs):
-    ### Training
+    # Training
     model_1.train()  # train mode is on by default after construction
 
     # 1. Forward pass
@@ -291,7 +297,7 @@ for epoch in range(epochs):
     # 5. Step the optimizer
     optimizer.step()
 
-    ### Testing
+    # Testing
     model_1.eval()  # put the model in evaluation mode for testing (inference)
     # 1. Forward pass
     with torch.inference_mode():
@@ -316,8 +322,6 @@ with torch.inference_mode():
     y_preds = model_1(X_test)
 plot_predictions(predictions=y_preds.cpu())
 
-from pathlib import Path
-
 # 1. Create models directory
 MODEL_PATH = Path("models")
 MODEL_PATH.mkdir(parents=True, exist_ok=True)
@@ -328,5 +332,5 @@ MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
 
 # 3. Save the model state dict
 print(f"Saving model to: {MODEL_SAVE_PATH}")
-torch.save(obj=model_1.state_dict(), # only saving the state_dict() only saves the models learned parameters
+torch.save(obj=model_1.state_dict(),  # only saving the state_dict() only saves the models learned parameters
            f=MODEL_SAVE_PATH)

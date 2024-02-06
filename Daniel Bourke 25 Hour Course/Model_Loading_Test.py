@@ -1,15 +1,12 @@
 import torch
-from torch import nn
-import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-from utils.customLogger import setupLogger
+from utils.customLogger import setup_logger
 from pathlib import Path
 from utils.ModelClasses import LinearModel
 
-logger=setupLogger(Path(__file__).name[:-3]) #set up custom logger
+logger = setup_logger(Path(__file__).name[:-3])  # set up custom logger
 
-#configuring CPU/GPU usage
+# configuring CPU/GPU usage
 if torch.cuda.is_available():
     device = "cuda"
     torch.set_default_device(device)
@@ -18,24 +15,24 @@ else:
     torch.set_default_device(device)
 
 
-#========================================START OF EXCERCISES==========================================================
+# ========================================START OF EXCERCISES==========================================================
 torch.manual_seed(100)
-#making data
-weight= 0.3
-bias=0.9
-x_set=torch.arange(0,100,1)
-y_set=x_set*weight+bias
-x_set=torch.squeeze(x_set)
-y_set=torch.squeeze(y_set)
+# making data
+weight = 0.3
+bias = 0.9
+x_set = torch.arange(0, 100, 1)
+y_set = x_set*weight+bias
+x_set = torch.squeeze(x_set)
+y_set = torch.squeeze(y_set)
 
-#splitting data
-training_split=int(0.8*len(x_set))
-x_train=x_set[:training_split]
-y_train=y_set[:training_split]
-x_test=x_set[training_split:]
+# splitting data
+training_split = int(0.8*len(x_set))
+x_train = x_set[:training_split]
+y_train = y_set[:training_split]
+x_test = x_set[training_split:]
 
-plt.scatter(x_train.cpu(),y_train.cpu(),s=3)
-plt.show
+plt.scatter(x_train.cpu(), y_train.cpu(), s=3)
+plt.show()
 
 # Instantiate a fresh instance of LinearRegressionModelV2
 loaded_model_1 = LinearModel()
@@ -57,10 +54,10 @@ print(f"Model on device:\n{next(loaded_model_1.parameters()).device}")
 
 loaded_model_1.eval()
 with torch.inference_mode():
-    predictions=loaded_model_1(x_test)
-predictions=predictions.cpu()
+    predictions = loaded_model_1(x_test)
+predictions = predictions.cpu()
 predictions.detach().numpy()
 
-plt.scatter(x_train.cpu(),y_train.cpu(),s=3)
-plt.scatter(x_test.cpu(),predictions.cpu(),s=3)
+plt.scatter(x_train.cpu(), y_train.cpu(), s=3)
+plt.scatter(x_test.cpu(), predictions.cpu(), s=3)
 plt.show()
