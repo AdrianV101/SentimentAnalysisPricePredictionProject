@@ -19,7 +19,7 @@ Each Python file has a short description at the top explaining its function. Wit
 - OutputDataCreation.py
 
 ### Data Obtention
-- TwitterScraperV1
+- TwitterScraperV1.py
 - There are also some ultimately unused files to obtain historical crypto data, with AWS DynamoDB integrated for storage in the Folder AWS_CoinAPI
 
 
