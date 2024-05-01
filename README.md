@@ -24,7 +24,7 @@ Each python file has a short description at the top explaining its function. Wit
 
 
 # Introduction
-The "aim" of this project was to train a machine learning model into which the sentiment analysis of live tweets and recent OHLCV data can be fed, to predict the next OHLC of Bitcoin (chosen for the large amounts of Internet "chatter" regarding it). That being said, the **true aim** of this project was for me to develop my skills in Data Science and Machine Learning. Whilst there is a large amount of knowledge to gain from learning resources, and they should not be ignored, I believe the best way to do this is through real practice and implementation, even if unsuccessful.
+The "aim" of this project was to train a machine learning model into which the sentiment analysis of live tweets and recent OHLCV data can be fed, to predict the next OHLC of Bitcoin (chosen for the large amounts of Internet "chatter" regarding it). That being said, the **true aim** of this project was for me to develop my skills in Data Science and Machine Learning. Whilst there is a large amount of knowledge to gain from learning resources, and they should not be neglected, I believe the best way to do this is through real practice and implementation, even if unsuccessful.
 
 The vision for this project, once completed, began with scraping live tweets from X, cleaning them and running sentiment analysis on them. With that done, the sentiments of tweets within a time frame can be condensed, whilst trying to retain as much information as possible. This information along with the recent historical data of Bitcoin, could then be passed into a ML model trained on historical tweet sentiment and OHLCV data, to predict the next OHLCV.
 
