@@ -6,7 +6,7 @@ from pathlib import Path
 logger = setup_logger(Path(__file__).name[:-3])
 # this program is not in use, nor updated as it was used to access coinAPI for data but
 # an unofficial Yahoo Finance API was chosen for use instead
-symbol_list_file = open(r"..\Data\coinapi_binance_symbols.json", "r")   # load json file of all coinapi binance symbols
+symbol_list_file = open(r"../SentimentAnalysisPricePredictionProject/Data\coinapi_binance_symbols.json", "r")   # load json file of all coinapi binance symbols
 symbol_list = json.load(symbol_list_file)
 symbol_list_file.close()
 
@@ -27,7 +27,7 @@ for symbol in symbol_list:   # filter through these symbols and isolate those wh
             })
     except KeyError:
         logger.warning(f"Key error for {symbol['symbol_id']}")
-usdt_list_file = open(r"..\Data\binance_usdt_symbols.json", "w")
+usdt_list_file = open(r"../SentimentAnalysisPricePredictionProject/Data\binance_usdt_symbols.json", "w")
 json.dump(usdt_list, fp=usdt_list_file, indent=2)
 usdt_list_file.close()
 logger.info(f"Filtered {len(usdt_list)} suitable coins")

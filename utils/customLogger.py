@@ -13,7 +13,7 @@ def setup_logger(program_name):
     # Create a file handler with dynamic file name
     current_datetime = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     log_file_name = f'../Logs/{program_name}_{current_datetime}.log'
-    file_handler = logging.FileHandler(log_file_name)
+    file_handler = logging.FileHandler(log_file_name, encoding="utf-8")
 
     # Set the log message format
     file_formatter = logging.Formatter('%(asctime)s [%(levelname)s] - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')

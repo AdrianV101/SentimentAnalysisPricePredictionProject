@@ -45,7 +45,7 @@ def fetch_binance_symbols():
     # Check if the response is successful
     if response.status_code == 200:
         if response.content:
-            json_file = open(r"..\Data\coinapi_binance_symbols.json", "w")
+            json_file = open(r"../SentimentAnalysisPricePredictionProject/Data\coinapi_binance_symbols.json", "w")
             json.dump(response.json(), fp=json_file, indent=2)
             print("response.json")
         else:
