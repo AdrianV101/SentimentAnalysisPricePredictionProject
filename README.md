@@ -1,5 +1,5 @@
 # Files of possible interest:
-Each python file has a short description at the top explaining its function. With regards to the candlestick graphs, the predicted values are those which are lighter green and pink, whilst the true values are those in darker green and red. Unfortuantely, most of the CSV data files are too large for GitHub to handle. However, you can find the Input and Output data for training the models in SentimentAnalysisPricePredictionProject/Data. Unless specified otherwise, files are found in the SentimentAnalysisPricePredictionProject folder.
+Each python file has a short description at the top explaining its function. With regards to the candlestick graphs, the predicted values are those which are lighter green and pink, whilst the true values are those in darker green and red. Unfortuantely, most of the CSV data files are too large for GitHub to handle. However, you can find the Input and Output data for training the models in SentimentAnalysisPricePredictionProject/Data. The original datasets have been linked in the README. Unless specified otherwise, files are found in the SentimentAnalysisPricePredictionProject folder.
 
 ### Model outputs:
 - Folder named "Output Graphs". Titles are in reference to the model used and wether the test data is in the same market conditions and value range as the training data.
